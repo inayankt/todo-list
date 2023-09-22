@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Montserrat&family=Open+Sans&family=Poppins&display=swap');
+
+:root{
+    --primary-blue: #4D77FF;
+    --light-blue: #5EE6EB;
+    --bottom-bg-clr: rgba(255, 255, 255, 0.5);
+    --main-bg: #f9f9f9;
+    --bg-circle-size: 300px;
+    --todo-input-height: 45px;
+    --top-div-height: 70px;
+    --bottom-div-height: 100px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    letter-spacing: 0.35px;
+    box-sizing: border-box;
+}
+
+body{
+    /* background: var(--main-bg); */
+    background: white;
+    display: flex;
+    justify-content: center;
+}
+
+.main-container{
+    max-width: 500px;
+    border-radius: 30px;
+    box-shadow: 0 0 50px rgb(217, 217, 217);
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    background: var(--main-bg);
+    height: 100vh;
+}
+
+.date-div{
+    width: 100%;
+    height: var(--top-div-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.date-div > span{
+    letter-spacing: 1px;
+    font-weight: 800;
+    font-size: 1.15rem;
+    /* font-family: 'Montserrat', sans-serif; */
+    font-family: 'Poppins', sans-serif;
+}
+
+.add-div{
+    position: sticky;
+    z-index: 1000;
+    bottom: 0;
+    width: 100%;
+    height: var(--bottom-div-height);
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+    background: var(--bottom-bg-clr);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(20px);
+}
+
+.add-form{
+    display: flex;
+    align-items: center;
+    width: 80%;
+}
+
+.add-form > input{
+    width: 100%;
+    height: var(--todo-input-height);
+    outline: none;
+    border: none;
+    box-shadow: 0 0 10px rgb(197, 197, 197);
+    padding: 10px 15px;
+    border-radius: 999px;
+    padding-right: calc(var(--todo-input-height) * 0.875);
+}
+
+.add-form > button{
+    position: fixed;
+    font-size: calc(var(--todo-input-height)*0.7);
+    font-weight: 1000px;
+    color: var(--primary-blue);
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+    right: calc(10vw + 10px);
+    display: flex;
+    align-items: center;
+}
+
+.bg-circle{
+    width: var(--bg-circle-size);
+    height: var(--bg-circle-size);
+    border-radius: 50%;
+    background: linear-gradient(
+        180deg,
+        var(--primary-blue),
+        var(--light-blue)
+    );
+    position: fixed;
+    z-index: 10;
+    left: calc(50vw - var(--bg-circle-size)/2);
+    bottom: -70px;
+    opacity: 0.7;
+}
+
+.todo-div{
+    position: relative;
+    z-index: 100;
+    height: calc(100vh - var(--top-div-height) - var(--bottom-div-height));
+    display: flex;
+    justify-content: center;
+    overflow-y: scroll;
+}
+
+.todo-list{
+    list-style: none;
+    width: 87%;
+}
+
+.todo-items{
+    padding: 15px 5px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.text-strike{
+    text-decoration: line-through;
+}
+
+.todo-list hr{
+    background: rgba(221, 221, 221, 0.667);
+    border: none;
+    height: 0.25px;
+    margin: auto;
+    backdrop-filter: blur(20px);
+}
+
+@media only screen and (min-width: 500px) {
+    .add-form > button{
+        right: calc(50px + var(--todo-input-height) * 0.25);
+    }
+}

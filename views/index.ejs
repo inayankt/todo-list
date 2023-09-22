@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/main.css">
+    <title>Your ToDo | <%= date %></title>
+</head>
+<body>
+    <div class="main-container">
+        <div class="date-div">
+            <span><%= date %></span>
+        </div>
+        <div class="todo-div">
+            <ul class="todo-list">
+                <hr>
+                <% todoList.forEach((todo, idx) => { %>
+                    <li class="todo-items" id=<%= `todoItem${idx}` %>>
+                        <input type="checkbox" class="todo-check" name=<%= `check${idx}` %> id=<%= `check${idx}` %> value=<%= idx %>>
+                        <span id=<%= `todoTask${idx}` %>><%= todo %></span>
+                    </li>
+                    <hr>
+                <% }) %>
+            </ul>
+        </div>
+        <div class="add-div">
+            <form class="add-form" method="post" action="/add">
+                <input type="text" name="task" id="task" placeholder="Add new ToDo" autocomplete="off" autocapitalize="on">
+                <button type="submit"><ion-icon name="add"></ion-icon></button>
+            </form>
+        </div>
+        <div class="bg-circle"></div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script type="module" src="/scripts/script.js"></script>
+</body>
+</html>
