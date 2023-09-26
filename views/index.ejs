@@ -4,27 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/main.css">
-    <title>Your ToDo | <%= date %></title>
+    <title>Your ToDo | <%= date %> | <%= type %></title>
 </head>
 <body>
     <div class="main-container">
         <div class="date-div">
-            <span><%= date %></span>
+            <span><%= date %> - <%= type %> ToDo's</span>
         </div>
         <div class="todo-div">
+        <% if(todoList.length){ %>
             <ul class="todo-list">
                 <hr>
                 <% todoList.forEach((todo, idx) => { %>
-                    <li class="todo-items" id=<%= `todoItem${idx}` %>>
-                        <input type="checkbox" class="todo-check" name=<%= `check${idx}` %> id=<%= `check${idx}` %> value=<%= idx %>>
-                        <span id=<%= `todoTask${idx}` %>><%= todo %></span>
+                    <li id=<%= `todoItem${idx}` %>>
+                        <form class="todo-items" action="<%= `${type.toLowerCase()}/delete` %>" method="post">
+                            <input type="checkbox" class="todo-check" name="deleteId" id="<%= `check${idx}` %>" value="<%= todo._id %>" onChange="this.form.submit()">
+                            <span id=<%= `todoTask${idx}` %>><%= todo.task %></span>
+                        </form>
                     </li>
                     <hr>
                 <% }) %>
             </ul>
+        <% } else { %>
+            <div class="todo-empty-div">
+                <h3>No tasks added yet.</h3>
+                <small>Go ahead and add your first task!</small>
+            </div>
+        <% } %>
         </div>
         <div class="add-div">
-            <form class="add-form" method="post" action="/add">
+            <form class="add-form" method="post" action="<%= `${type.toLowerCase()}/add` %>">
                 <input type="text" name="task" id="task" placeholder="Add new ToDo" autocomplete="off" autocapitalize="on">
                 <button type="submit"><ion-icon name="add"></ion-icon></button>
             </form>

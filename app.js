@@ -36,42 +36,69 @@ const months = {
     "Dec": "December"
 };
 
-// const todo = [
-//     "Hi",
-//     "I am feeling",
-//     "Lucky",
-//     "Very much"
-// ];
-
 let dateArr = new Date().toDateString().split(" ");
-let date = days[dateArr[0]] + ", " + months[dateArr[1]] + " " + dateArr[2];
+let date = dateArr[0] + ", " + dateArr[1] + " " + dateArr[2];
+// let date = days[dateArr[0]] + ", " + months[dateArr[1]] + " " + dateArr[2];
 
-app.get("/", async (req, res) => {
+app.get("/", (req, res) => {
+    res.redirect("/all");
+})
+
+app.get("/:type", async (req, res) => {
+    const listType = req.params.type;
     try {
-        const result = await axios.get(`${apiurl}/todos`);
+        const result = await axios.get(`${apiurl}/todos/${listType}`);
         const content = {
             date: date,
+            type: listType[0].toUpperCase() + listType.slice(1).toLowerCase(),
             todoList: result.data
         };
         res.status(200).render("index.ejs", content);
     } catch (err) {
-        if(err.response) console.log(err.response.data);
-        res.status(500).json({"error": "Cannot fetch ToDos at the moment."});
+        if(err.response){
+            console.log(err.response.data);
+            res.status(500).json(err.response.data);
+        }
+        else{
+            res.status(500).json({"error": "Cannot fetch ToDos at the moment."});
+        }
     }
 });
 
-app.post("/add", async (req, res) => {
+app.post("/:type/add", async (req, res) => {
+    const listType = req.params.type;
     try {
-        const result = await axios.post(`${apiurl}/todo`, req.body, {
+        const result = await axios.post(`${apiurl}/todo/${listType}`, req.body, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         });
         console.log(result.data);
-        res.status(200).redirect("/");
+        res.status(200).redirect(`/${listType}`);
     } catch (err) {
-        if(err.response) console.log(err.response.data);
-        res.status(500).json({"error": "Cannot add ToDo at the moment."})
+        if(err.response){
+            console.log(err.response.data);
+            res.status(500).json(err.response.data);
+        }
+        else{
+            res.status(500).json({"error": "Cannot add ToDo at the moment."});
+        }
+    }
+});
+
+app.post("/:type/delete", async (req, res) => {
+    const listType = req.params.type;
+    try {
+        const result = await axios.delete(`${apiurl}/todo/${listType}/${req.body.deleteId}`);
+        console.log(result.data);
+        res.status(200).redirect(`/${listType}`);
+    } catch (err) {
+        if(err.response){
+            console.log(err.response.data);
+            res.status(500).json(err.response.data);
+        } else {
+            res.status(500).json({"error": "Cannot delete ToDo ata the moment"});
+        }
     }
 });
 
