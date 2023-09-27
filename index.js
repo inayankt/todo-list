@@ -1,14 +1,15 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import "dotenv/config";
 
 const app = express();
-const port = 4000;
+const port = process.env.API_PORT;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 
-await mongoose.connect("mongodb://127.0.0.1:27017/todoListDB");
+await mongoose.connect(process.env.DATABASE_URL);
 
 const Schema = mongoose.Schema;
 
@@ -29,16 +30,6 @@ const listSchema = Schema({
 
 const Todo = mongoose.model("todo", todoSchema);
 const List = mongoose.model("list", listSchema);
-
-// const item1 = new Todo({
-//     task: "Todo1"
-// });
-// const item2 = new Todo({
-//     task: "Todo2"
-// });
-// const item3 = new Todo({
-//     task: "Todo3"
-// });
 
 app.get("/todos/:type", async (req, res) => {
     const listType = req.params.type.toLowerCase();

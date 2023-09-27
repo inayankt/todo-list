@@ -1,47 +1,23 @@
 import express from "express";
 import axios from "axios";
 import bodyParser from "body-parser";
+import "dotenv/config";
 
 const app = express();
-const port = 3000;
+const port = process.env.APP_PORT;
 
-const apiurl = "http://localhost:4000";
+const apiurl = process.env.API_URL;
 
 app.set("view engine", "ejs");
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const days = {
-    "Sun": "Sunday",
-    "Mon": "Monday",
-    "Tue": "Tuesday",
-    "Thur": "Thursday",
-    "Fri": "Friday",
-    "Sat": "Saturday"
-};
-
-const months = {
-    "Jan": "January",
-    "Feb": "February",
-    "Mar": "March",
-    "Apr": "April",
-    "May": "May",
-    "Jun": "June",
-    "Jul": "July",
-    "Aug": "August",
-    "Sep": "September",
-    "Oct": "October",
-    "Nov": "November",
-    "Dec": "December"
-};
-
 let dateArr = new Date().toDateString().split(" ");
 let date = dateArr[0] + ", " + dateArr[1] + " " + dateArr[2];
-// let date = days[dateArr[0]] + ", " + months[dateArr[1]] + " " + dateArr[2];
 
 app.get("/", (req, res) => {
-    res.redirect("/all");
+    res.redirect("/general");
 })
 
 app.get("/:type", async (req, res) => {
